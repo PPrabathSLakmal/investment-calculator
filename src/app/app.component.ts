@@ -3,21 +3,28 @@ import { RouterOutlet } from '@angular/router';
 import { HeaderComponent } from './header/header.component';
 import { UserInputComponent } from './user-input/user-input.component';
 
+import type { InvestmentInput } from './investment-input.modal';
+import { InvestmentResultComponent } from './investment-result/investment-result.component';
+
 @Component({
   selector: 'app-root',
-  imports: [HeaderComponent, UserInputComponent],
+  imports: [HeaderComponent, UserInputComponent, InvestmentResultComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })
 export class AppComponent {
   title = 'investment-calculator';
 
-  calculateInvestmentResults(data: {
-    initialInvestment: number;
+  resultData?: {
+    year: number;
+    interest: number;
+    valueEndOfYear: number;
     annualInvestment: number;
-    expectedReturn: number;
-    duration: number;
-  }) {
+    totalInterest: number;
+    totalAmountInvested: number;
+  }[];
+
+  calculateInvestmentResults(data: InvestmentInput) {
     const { initialInvestment, annualInvestment, expectedReturn, duration } =
       data;
     const annualData = [];
@@ -39,6 +46,6 @@ export class AppComponent {
       });
     }
 
-    return annualData;
+    this.resultData = annualData;
   }
 }
